@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	urls := os.Args[1:]
 	file, err := os.OpenFile("/etc/hosts", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
@@ -34,5 +33,5 @@ func main() {
 		return
 	}
 
-	fmt.Println("Lines written successfully!")
+	fmt.Println("URLs blocked successfully!")
 }
