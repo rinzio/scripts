@@ -4,12 +4,21 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
+func loadURLs() []string {
+	lines := []string{}
+	for _, url := range os.Args[1:] {
+		lines = append(lines, "127.0.0.1 "+url)
+	}
+	return lines
+}
+
 func main() {
 	filename := "/etc/hosts"
-	url := "127.0.0.1 " + os.Args[1]
+	urls := loadURLs()
 
 	file, err := os.Open(filename)
 	if err != nil {
@@ -22,7 +31,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
-		if line != url {
+		if !slices.Contains(urls, line) {
 			lines = append(lines, line)
 		}
 	}
@@ -38,5 +47,5 @@ func main() {
 		return
 	}
 
-	fmt.Println("URL unblocked successfully!")
+	fmt.Println("URLs unblocked successfully!")
 }
